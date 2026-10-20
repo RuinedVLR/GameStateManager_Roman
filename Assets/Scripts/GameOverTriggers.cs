@@ -10,15 +10,19 @@ public class GameOverTriggers : MonoBehaviour
 
     [SerializeField] private TriggerType triggerType;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (triggerType == TriggerType.Win)
+
+        if (other.CompareTag("Player"))
         {
-            GameStateManager.Instance.SetGameState(GameStateManager.GameState.GameWin);
-        }
-        else
-        {
-            GameStateManager.Instance.SetGameState(GameStateManager.GameState.GameLose);
+            if (triggerType == TriggerType.Win)
+            {
+                GameStateManager.Instance.SetGameState(GameStateManager.GameState.GameWin);
+            }
+            else
+            {
+                GameStateManager.Instance.SetGameState(GameStateManager.GameState.GameLose);
+            }
         }
     }
 }

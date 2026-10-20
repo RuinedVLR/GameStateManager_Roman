@@ -14,8 +14,9 @@ public class GameStateManager : MonoBehaviour
     }
 
     public GameState CurrentState { get; private set; } = GameState.MainMenu;
+    public GameState LastState { get; private set; } = GameState.MainMenu;
 
-    private void Start()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -28,7 +29,9 @@ public class GameStateManager : MonoBehaviour
 
     public void SetGameState(GameState newState)
     {
+        LastState = CurrentState;
         CurrentState = newState;
-        UIManager.Instance?.UIOnGameStateChanged();
+        Debug.Log($"GameState changed to {newState}");
+        UIManager.Instance.UIOnGameStateChanged();
     }
 }

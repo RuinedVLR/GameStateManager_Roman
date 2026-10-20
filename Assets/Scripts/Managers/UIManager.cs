@@ -24,44 +24,67 @@ public class UIManager : MonoBehaviour
         UIOnGameStateChanged();
     }
 
+    private void Update()
+    {
+        if (GameStateManager.Instance.CurrentState != GameStateManager.Instance.LastState)
+        {
+            UIOnGameStateChanged();
+        }
+    }
+
     public void UIOnGameStateChanged()
     {
         CloseAllUI();
         switch (GameStateManager.Instance.CurrentState)
         {
             case GameStateManager.GameState.MainMenu:
-                mainMenuUI?.SetActive(true);
+                if (mainMenuUI != null) mainMenuUI.SetActive(true);
                 break;
             case GameStateManager.GameState.Playing:
                 // No UI to show during gameplay
                 break;
             case GameStateManager.GameState.Paused:
-                pauseMenuUI?.SetActive(true);
+                if (pauseMenuUI != null) pauseMenuUI.SetActive(true);
                 break;
             case GameStateManager.GameState.GameWin:
-                gameWinUI?.SetActive(true);
+                if (gameWinUI != null) gameWinUI.SetActive(true);
                 break;
             case GameStateManager.GameState.GameLose:
-                gameLoseUI?.SetActive(true);
-                break;
-            default:
-                CloseAllUI();
+                if (gameLoseUI != null) gameLoseUI.SetActive(true);
                 break;
         }
     }
 
     private void CloseAllUI()
     {
-        mainMenuUI?.SetActive(false);
-        pauseMenuUI?.SetActive(false);
-        gameWinUI?.SetActive(false);
-        gameLoseUI?.SetActive(false);
+        if (mainMenuUI != null) mainMenuUI.SetActive(false);
+        if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
+        if (gameWinUI != null) gameWinUI.SetActive(false);
+        if (gameLoseUI != null) gameLoseUI.SetActive(false);
     }
 
     public void StartGame()
     {
+        GameStateManager.Instance.SetGameState(GameStateManager.GameState.Playing);
         SceneManager.LoadScene("Gameplay");
+    }
+
+    public void Continue()
+    {
+        GameStateManager.Instance.SetGameState(GameStateManager.GameState.Playing);
         UIOnGameStateChanged();
+    }
+
+    public void QuitToMenu()
+    {
+        GameStateManager.Instance.SetGameState(GameStateManager.GameState.MainMenu);
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void Retry()
+    {
+        GameStateManager.Instance.SetGameState(GameStateManager.GameState.Playing);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void Quit()
