@@ -24,14 +24,6 @@ public class UIManager : MonoBehaviour
         UIOnGameStateChanged();
     }
 
-    private void Update()
-    {
-        if (GameStateManager.Instance.CurrentState != GameStateManager.Instance.LastState)
-        {
-            UIOnGameStateChanged();
-        }
-    }
-
     public void UIOnGameStateChanged()
     {
         CloseAllUI();
