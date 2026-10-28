@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Canvas References")]
     [SerializeField] private GameObject mainMenuUI;
+    [SerializeField] private GameObject hudUI;
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private GameObject gameWinUI;
     [SerializeField] private GameObject gameLoseUI;
@@ -33,7 +34,7 @@ public class UIManager : MonoBehaviour
                 if (mainMenuUI != null) mainMenuUI.SetActive(true);
                 break;
             case GameStateManager.GameState.Playing:
-                // No UI to show during gameplay
+                if (hudUI != null) hudUI.SetActive(true);
                 break;
             case GameStateManager.GameState.Paused:
                 if (pauseMenuUI != null) pauseMenuUI.SetActive(true);
@@ -50,6 +51,7 @@ public class UIManager : MonoBehaviour
     private void CloseAllUI()
     {
         if (mainMenuUI != null) mainMenuUI.SetActive(false);
+        if (hudUI != null) hudUI.SetActive(false);
         if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
         if (gameWinUI != null) gameWinUI.SetActive(false);
         if (gameLoseUI != null) gameLoseUI.SetActive(false);
